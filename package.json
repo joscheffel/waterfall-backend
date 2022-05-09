@@ -1,0 +1,31 @@
+{
+  "name": "placemark",
+  "version": "0.1.0",
+  "description": "",
+  "main": "src/server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src/server.js",
+    "lint": "./node_modules/.bin/eslint . --ext .js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/joscheffel/placemark.git"
+  },
+  "author": "Jonathan Scheffel",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/joscheffel/placemark/issues"
+  },
+  "homepage": "https://github.com/joscheffel/placemark#readme",
+  "devDependencies": {
+    "eslint": "^8.15.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-import": "^2.26.0",
+    "prettier": "^2.6.2"
+  },
+  "dependencies": {
+    "@hapi/hapi": "^20.2.2"
+  }
+}
