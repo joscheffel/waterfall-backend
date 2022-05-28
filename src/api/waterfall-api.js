@@ -33,6 +33,9 @@ export const waterfallApi = {
     auth: false,
     handler: async function (request, h) {
       try {
+        if (!request.payload.name) {
+          return Boom.badRequest("Waterfall needs a name", request.payload.name);
+        }
         const waterfall = await db.waterfallStore.addWaterfall(request.payload);
         if (waterfall) {
           return h.response(waterfall).code(201);
