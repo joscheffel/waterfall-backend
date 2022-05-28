@@ -6,7 +6,7 @@ export const waterfallApi = {
     auth: false,
     handler: async function (request, h) {
       try {
-        const waterfalls = db.placeMarkStore.getAllPlaceMarks();
+        const waterfalls = db.waterfallStore.getAllWaterfalls();
         return waterfalls;
       } catch (err) {
         return Boom.serverUnavailable("Database Error");
@@ -18,7 +18,7 @@ export const waterfallApi = {
     auth: false,
     handler: async function (request, h) {
       try {
-        const waterfall = await db.placeMarkStore.getPlaceMarkById(request.params.id);
+        const waterfall = await db.waterfallStore.getWaterfallById(request.params.id);
         if (!waterfall) {
           return Boom.notFound("No Waterfall with this id");
         }
@@ -33,7 +33,7 @@ export const waterfallApi = {
     auth: false,
     handler: async function (request, h) {
       try {
-        const waterfall = await db.placeMarkStore.addPlaceMark(request.payload);
+        const waterfall = await db.waterfallStore.addWaterfall(request.payload);
         if (waterfall) {
           return h.response(waterfall).code(201);
         }
@@ -48,7 +48,7 @@ export const waterfallApi = {
     auth: false,
     handler: async function (request, h) {
       try {
-        await db.placeMarkStore.deleteAllPlaceMarks();
+        await db.waterfallStore.deleteAllWaterfalls();
         return h.response().code(204);
       } catch (err) {
         return Boom.serverUnavailable("Database Error");
@@ -60,7 +60,7 @@ export const waterfallApi = {
     auth: false,
     handler: async function (request, h) {
       try {
-        await db.placeMarkStore.deletePlaceMarkById(request.params.id);
+        await db.waterfallStore.deleteWaterfallById(request.params.id);
         return h.response().code(204);
       } catch (err) {
         return Boom.serverUnavailable("Database Error");
