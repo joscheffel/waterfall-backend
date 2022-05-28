@@ -6,6 +6,7 @@
   "type": "module",
   "scripts": {
     "start": "node src/server.js",
+    "dev": "./node_modules/.bin/nodemon  src/server.js",
     "lint": "./node_modules/.bin/eslint . --ext .js"
   },
   "repository": {
@@ -23,9 +24,12 @@
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-import": "^2.26.0",
+    "nodemon": "^2.0.16",
     "prettier": "^2.6.2"
   },
   "dependencies": {
-    "@hapi/hapi": "^20.2.2"
+    "@hapi/boom": "^10.0.0",
+    "@hapi/hapi": "^20.2.2",
+    "uuid": "^8.3.2"
   }
 }
