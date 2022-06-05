@@ -13,6 +13,13 @@ export const userMemStore = {
     return user;
   },
 
+  async updateUser(id, updatedUser) {
+    updatedUser._id = id;
+    const index = users.findIndex((user) => user._id === id);
+    users[index] = updatedUser;
+    return users[index];
+  },
+
   async getUserById(id) {
     return users.find((user) => user._id === id);
   },
