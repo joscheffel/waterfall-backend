@@ -44,6 +44,24 @@ export const userApi = {
     },
   },
 
+  update: {
+    auth: false,
+    handler: async function (request, h) {
+      try {
+        if (!request.params.id || !request.payload.username || !request.payload.password) {
+          return Boom.badRequest("Updating needs user id, username and password");
+        }
+        const user = await db.userStore.updateUser(request.params.id, request.payload);
+        if (user) {
+          return h.response(user).code(200);
+        }
+        return Boom.badImplementation("Error updating user");
+      } catch (err) {
+        return Boom.serverUnavailable("Database error");
+      }
+    },
+  },
+
   deleteAll: {
     auth: false,
     handler: async function (request, h) {

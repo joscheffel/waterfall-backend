@@ -47,6 +47,24 @@ export const waterfallApi = {
     },
   },
 
+  update: {
+    auth: false,
+    handler: async function (request, h) {
+      try {
+        if (!request.params.id || !request.payload.name) {
+          return Boom.badRequest("Updating a waterfall needs a waterfall id and name");
+        }
+        const waterfall = await db.waterfallStore.updateWaterfall(request.params.id, request.payload);
+        if (waterfall) {
+          return h.response(waterfall).code(200);
+        }
+        return Boom.badImplementation("Error updating waterfall");
+      } catch (err) {
+        return Boom.serverUnavailable("Database error");
+      }
+    },
+  },
+
   deleteAll: {
     auth: false,
     handler: async function (request, h) {

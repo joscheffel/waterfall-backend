@@ -17,6 +17,13 @@ export const waterfallMemStore = {
     return waterfalls.find((waterfall) => waterfall._id === id);
   },
 
+  async updateWaterfall(id, updatedWaterfall) {
+    updatedWaterfall._id = id;
+    const index = waterfalls.findIndex((waterfall) => waterfall._id === id);
+    waterfalls[index] = updatedWaterfall;
+    return waterfalls[index];
+  },
+
   async deleteWaterfallById(id) {
     const index = waterfalls.findIndex((waterfall) => waterfall._id === id);
     waterfalls.splice(index, 1);
