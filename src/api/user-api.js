@@ -19,7 +19,7 @@ export const userApi = {
     handler: async function (request, h) {
       try {
         const user = await db.userStore.getUserById(request.params.id);
-        if (!user) {
+        if (Object.keys(user).length === 0) {
           return Boom.notFound("No User with this id");
         }
         return user;
@@ -48,14 +48,14 @@ export const userApi = {
     auth: false,
     handler: async function (request, h) {
       try {
-        if (!request.params.id || !request.payload.username || !request.payload.password) {
+        if (!request.params.id || !request.payload.firstName || !request.payload.lastName || !request.payload.password) {
           return Boom.badRequest("Updating needs user id, username and password");
         }
         const user = await db.userStore.updateUser(request.params.id, request.payload);
-        if (user) {
-          return h.response(user).code(200);
+        if (Object.keys(user).length === 0) {
+          return Boom.notFound("Cannot find user to update");
         }
-        return Boom.badImplementation("Error updating user");
+        return h.response(user).code(200);
       } catch (err) {
         return Boom.serverUnavailable("Database error");
       }
