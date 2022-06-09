@@ -19,7 +19,7 @@ export const waterfallApi = {
     handler: async function (request, h) {
       try {
         const waterfall = await db.waterfallStore.getWaterfallById(request.params.id);
-        if (!waterfall) {
+        if (Object.keys(waterfall).length === 0) {
           return Boom.notFound("No Waterfall with this id");
         }
         return waterfall;
@@ -37,7 +37,7 @@ export const waterfallApi = {
           return Boom.badRequest("Waterfall needs a name", request.payload.name);
         }
         const waterfall = await db.waterfallStore.addWaterfall(request.payload);
-        if (waterfall) {
+        if (Object.keys(waterfall).length !== 0) {
           return h.response(waterfall).code(201);
         }
         return Boom.badImplementation("error creating waterfall");
@@ -55,10 +55,10 @@ export const waterfallApi = {
           return Boom.badRequest("Updating a waterfall needs a waterfall id and name");
         }
         const waterfall = await db.waterfallStore.updateWaterfall(request.params.id, request.payload);
-        if (waterfall) {
+        if (Object.keys(waterfall).length !== 0) {
           return h.response(waterfall).code(200);
         }
-        return Boom.badImplementation("Error updating waterfall");
+        return Boom.notFound("Couldn't find object to update");
       } catch (err) {
         return Boom.serverUnavailable("Database error");
       }
@@ -69,7 +69,7 @@ export const waterfallApi = {
     auth: false,
     handler: async function (request, h) {
       try {
-        await db.waterfallStore.deleteAllWaterfalls();
+        await db.waterfallStore.deleteAll();
         return h.response().code(204);
       } catch (err) {
         return Boom.serverUnavailable("Database Error");
