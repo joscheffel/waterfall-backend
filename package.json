@@ -32,7 +32,9 @@
   },
   "dependencies": {
     "@hapi/boom": "^10.0.0",
+    "@hapi/cookie": "^11.0.2",
     "@hapi/hapi": "^20.2.2",
+    "dotenv": "^16.0.1",
     "joi": "^17.6.0",
     "lowdb": "^3.0.0",
     "uuid": "^8.3.2"
