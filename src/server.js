@@ -2,6 +2,7 @@ import Hapi from "@hapi/hapi";
 import path from "path";
 
 import { fileURLToPath } from "url";
+import Joi from "joi";
 import { apiRoutes } from "./api-routes.js";
 import { db } from "./models/db.js";
 import { webRoutes } from "./web-routes.js";
@@ -18,6 +19,8 @@ async function init() {
   db.init();
   server.route(apiRoutes);
   server.route(webRoutes);
+
+  await server.validator(Joi);
   await server.start();
   console.log("Server running on %s", server.info.uri);
 }

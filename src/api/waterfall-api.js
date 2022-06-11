@@ -1,5 +1,7 @@
 import Boom from "@hapi/boom";
 import { db } from "../models/db.js";
+import { IdObjectSpec, WaterfallArray, WaterfallSpec, WaterfallSpecPlus } from "../models/joi-schemas.js";
+import { validationError } from "./logger.js";
 
 export const waterfallApi = {
   findAll: {
@@ -12,6 +14,7 @@ export const waterfallApi = {
         return Boom.serverUnavailable("Database Error");
       }
     },
+    response: { schema: WaterfallArray, failAction: validationError },
   },
 
   findOne: {
@@ -27,15 +30,14 @@ export const waterfallApi = {
         return Boom.serverUnavailable("No waterfall with this id");
       }
     },
+    validate: { params: IdObjectSpec, failAction: validationError },
+    response: { schema: WaterfallSpecPlus, failAction: validationError },
   },
 
   create: {
     auth: false,
     handler: async function (request, h) {
       try {
-        if (!request.payload.name) {
-          return Boom.badRequest("Waterfall needs a name", request.payload.name);
-        }
         const waterfall = await db.waterfallStore.addWaterfall(request.payload);
         if (Object.keys(waterfall).length !== 0) {
           return h.response(waterfall).code(201);
@@ -45,15 +47,14 @@ export const waterfallApi = {
         return Boom.serverUnavailable("Database Error");
       }
     },
+    validate: { payload: WaterfallSpec, failAction: validationError },
+    response: { schema: WaterfallSpecPlus, failAction: validationError },
   },
 
   update: {
     auth: false,
     handler: async function (request, h) {
       try {
-        if (!request.params.id || !request.payload.name) {
-          return Boom.badRequest("Updating a waterfall needs a waterfall id and name");
-        }
         const waterfall = await db.waterfallStore.updateWaterfall(request.params.id, request.payload);
         if (Object.keys(waterfall).length !== 0) {
           return h.response(waterfall).code(200);
@@ -63,6 +64,8 @@ export const waterfallApi = {
         return Boom.serverUnavailable("Database error");
       }
     },
+    validate: { params: IdObjectSpec, payload: WaterfallSpecPlus, failAction: validationError },
+    response: { schema: WaterfallSpecPlus },
   },
 
   deleteAll: {

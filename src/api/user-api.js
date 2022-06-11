@@ -1,5 +1,7 @@
 import Boom from "@hapi/boom";
 import { db } from "../models/db.js";
+import { IdObjectSpec, IdSpec, UserArray, UserSpec, UserSpecPlus } from "../models/joi-schemas.js";
+import { validationError } from "./logger.js";
 
 export const userApi = {
   findAll: {
@@ -12,6 +14,7 @@ export const userApi = {
         return Boom.serverUnavailable("Database Error");
       }
     },
+    response: { schema: UserArray, failAction: validationError },
   },
 
   findOne: {
@@ -27,6 +30,8 @@ export const userApi = {
         return Boom.serverUnavailable("No User with this id");
       }
     },
+    validate: { params: IdObjectSpec, failAction: validationError },
+    response: { schema: UserSpecPlus, failAction: validationError },
   },
 
   create: {
@@ -42,15 +47,13 @@ export const userApi = {
         return Boom.serverUnavailable("Database Error");
       }
     },
+    validate: { payload: UserSpec, failAction: validationError },
   },
 
   update: {
     auth: false,
     handler: async function (request, h) {
       try {
-        if (!request.params.id || !request.payload.firstName || !request.payload.lastName || !request.payload.password) {
-          return Boom.badRequest("Updating needs user id, username and password");
-        }
         const user = await db.userStore.updateUser(request.params.id, request.payload);
         if (Object.keys(user).length === 0) {
           return Boom.notFound("Cannot find user to update");
@@ -60,6 +63,7 @@ export const userApi = {
         return Boom.serverUnavailable("Database error");
       }
     },
+    validate: { params: IdObjectSpec, payload: UserSpecPlus, failAction: validationError },
   },
 
   deleteAll: {
