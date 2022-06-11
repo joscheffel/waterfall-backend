@@ -32,7 +32,23 @@ export const accountsController = {
       if (!user || user.password !== password) {
         return { success: false };
       }
+      request.cookieAuth.set({ id: user._id });
       return { success: true };
     },
+  },
+
+  logout: {
+    handler: function (request, h) {
+      request.cookieAuth.clear();
+      return { success: true };
+    },
+  },
+
+  async validate(request, session) {
+    const user = await db.userStore.getUserById(session.id);
+    if (!user) {
+      return { valid: false };
+    }
+    return { valid: true, credentials: user };
   },
 };
