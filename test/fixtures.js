@@ -28,17 +28,34 @@ export const testUsers = [
 
 export const niagaraFalls = {
   name: "Niagara Falls",
+  location: {
+    lat: 43.0799,
+    long: -79.0747,
+  },
 };
 
 export const testFalls = [
   {
     name: "Gullfoss",
+    location: {
+      lat: 64.326111,
+      long: -20.121111,
+    },
+    description: "Gullfoss (\"Golden Falls\"; Icelandic pronunciation (help·info) [ˈkʏtl̥ˌfɔsː]) is a waterfall located in the canyon of the Hvítá river in southwest Iceland. (source: wikipedia)",
   },
   {
     name: "Krimmler Waterfalls",
+    location: {
+      lat: 47.198056,
+      long: 12.171389,
+    },
   },
   {
     name: "Reichenbach Falls",
+    location: {
+      lat: 46.713611,
+      long: 8.183056,
+    },
   },
 ];
 

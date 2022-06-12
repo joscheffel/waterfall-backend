@@ -22,6 +22,18 @@ suite("Waterfall Api Tests", () => {
     assert.isDefined(newWaterfall._id);
   });
 
+  test("create a waterfall - fail missing required field location", async () => {
+    const niagaraFallsWithoutLocation = {};
+    niagaraFallsWithoutLocation.name = "Falls without location";
+    try {
+      const newWaterfall = await waterfallService.createWaterfall(niagaraFallsWithoutLocation);
+      assert.fail("Should not return a response");
+    } catch (error) {
+      assert(error.response.data.message === "\"location\" is required");
+      assert.equal(error.response.data.statusCode, 400);
+    }
+  });
+
   test("delete all waterfalls", async () => {
     let returnedFalls = await waterfallService.getAllWaterfalls();
     assert.equal(returnedFalls.length, testFalls.length + 1); // + 1 is niagaraFalls
