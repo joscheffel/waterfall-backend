@@ -10,19 +10,28 @@ export const waterfallMemStore = {
   async addWaterfall(waterfall) {
     waterfall._id = v4();
     waterfalls.push(waterfall);
-    return waterfall;
+    return { ...waterfall };
   },
 
   async getWaterfallById(id) {
-    return waterfalls.find((waterfall) => waterfall._id === id);
+    let w = waterfalls.find((waterfall) => waterfall._id === id);
+    if (w === undefined) w = null;
+    return { ...w };
+  },
+
+  async updateWaterfall(id, updatedWaterfall) {
+    if (updatedWaterfall._id !== id) return {};
+    const index = waterfalls.findIndex((waterfall) => waterfall._id === id);
+    if (index !== -1) waterfalls[index] = updatedWaterfall;
+    return { ...waterfalls[index] };
   },
 
   async deleteWaterfallById(id) {
     const index = waterfalls.findIndex((waterfall) => waterfall._id === id);
-    waterfalls.splice(index, 1);
+    if (index !== -1) waterfalls.splice(index, 1);
   },
 
-  async deleteAllWaterfalls() {
+  async deleteAll() {
     waterfalls = [];
   },
 };
