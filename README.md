@@ -24,10 +24,15 @@ port `3000`. The base url of the service is `http://localhost:3000`.
 These are placeholder for later. They will be added once the application got deployed via this mechanism.
 
 ### Glitch
+To deploy to glitch you just need to connect you glitch account with your github account. Then import it by using the gihub repo link. It always uses the main branch by default. When directly importing is not working try other possiblities suggested in the [glitch help forum](https://help.glitch.com/kb/article/20-importing-code-from-github/).
+This project is deployed with following link: [waterfalls-backend-service](waterfalls-backend-service)
+(This link is the base route for the Glitch deployment).
 
 ### Cloud Atlas
 
 ### Heroku
+
+---
 
 ## Usage
 
