@@ -64,7 +64,7 @@ suite("User Api Tests", () => {
     peter.firstName = "pe";
     peter.email = "pe@simpson.com";
     const updatedPeter = await waterfallService.updateUser(peter._id, peter);
-    assertSubset(updatedPeter, peter);
+    assert.deepEqual(updatedPeter, peter);
   });
 
   test("update a waterfall - bad-id", async () => {
