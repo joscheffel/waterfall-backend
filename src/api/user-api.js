@@ -27,7 +27,7 @@ export const userApi = {
         }
         return user;
       } catch (err) {
-        return Boom.notFound("No User with this id");
+        return Boom.serverUnavailable("No User with this id");
       }
     },
     validate: { params: IdObjectSpec, failAction: validationError },

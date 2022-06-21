@@ -26,7 +26,7 @@ async function init() {
     host: "localhost",
   });
 
-  db.init("mongo");
+  db.init();
   server.route(apiRoutes);
   server.route(webRoutes);
 
