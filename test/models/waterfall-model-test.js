@@ -1,18 +1,20 @@
 import { assert } from "chai";
 import { db } from "../../src/models/db.js";
 import { niagaraFalls, testFalls } from "../fixtures.js";
+import { assertSubset } from "../test-utils.js";
 
 suite("Waterfall Model tests", () => {
   const NO_WATERFALLS = 0;
+  const BAD_ID = "62b19f6f1198fa79acfa6418";
 
   setup(async () => {
-    db.init();
+    db.init("mongo");
     await db.waterfallStore.deleteAll();
   });
 
   test("Create a Waterfall", async () => {
     const newWaterfall = await db.waterfallStore.addWaterfall(niagaraFalls);
-    assert.deepEqual(niagaraFalls, newWaterfall);
+    assertSubset(niagaraFalls, newWaterfall);
   });
 
   test("delete all waterfalls", async () => {
@@ -31,6 +33,18 @@ suite("Waterfall Model tests", () => {
     const waterfall = await db.waterfallStore.addWaterfall(niagaraFalls);
     const returnedWaterfall = await db.waterfallStore.getWaterfallById(waterfall._id);
     assert.deepEqual(waterfall, returnedWaterfall);
+  });
+
+  test("get Waterfalls by userid - success", async () => {
+    for (let i = 0; i < testFalls.length; i += 1) {
+      // eslint-disable-next-line no-await-in-loop
+      await db.waterfallStore.addWaterfall(testFalls[i]);
+    }
+    const { userid } = testFalls[0];
+    const allWaterfalls = await db.waterfallStore.getAllWaterfalls();
+    const userWaterfalls = allWaterfalls.filter((waterfall) => true);
+    const returnedWaterfall = await db.waterfallStore.getWaterfallsByUserId(userid);
+    assert.deepEqual(returnedWaterfall, userWaterfalls);
   });
 
   test("delete one waterfall - success", async () => {
@@ -83,7 +97,7 @@ suite("Waterfall Model tests", () => {
     waterfall.name = "Niagara Fall - Canada";
     waterfall._id = "bad-id";
     const allWaterfalls = await db.waterfallStore.getAllWaterfalls();
-    const updatedWaterfall = await db.waterfallStore.updateWaterfall(waterfall._id, waterfall);
+    const updatedWaterfall = await db.waterfallStore.updateWaterfall(BAD_ID, waterfall);
     const allWaterfallsAfterUpdate = await db.waterfallStore.getAllWaterfalls();
     assert.equal(allWaterfallsAfterUpdate.length, allWaterfalls.length);
     assert.notDeepEqual(updatedWaterfall, waterfall);
