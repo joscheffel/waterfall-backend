@@ -5,7 +5,6 @@ import { assertSubset } from "../test-utils.js";
 
 const waterfalls = new Array(testFalls.length);
 const NO_WATERFALLS = 0;
-const BAD_ID = "62b19f6f1198fa79acfa6418";
 
 suite("Waterfall Api Tests", () => {
   setup(async () => {
@@ -50,7 +49,7 @@ suite("Waterfall Api Tests", () => {
 
   test("get a waterfall - bad id", async () => {
     try {
-      const returnedFall = await waterfallService.getWaterfall(BAD_ID);
+      const returnedFall = await waterfallService.getWaterfall("1234");
       assert.fail("Should not return a response");
     } catch (error) {
       assert(error.response.data.message === "No Waterfall with this id");

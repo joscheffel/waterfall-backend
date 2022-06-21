@@ -7,7 +7,6 @@ db.data = { users: [] };
 
 export const userJsonStore = {
   async getAllUsers() {
-    console.log("userJsonStore");
     await db.read();
     return db.data.users;
   },
