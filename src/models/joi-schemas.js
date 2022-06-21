@@ -27,12 +27,13 @@ export const UserArray = Joi.array().items(UserSpecPlus);
 export const LocationSpec = Joi.object().keys({
   lat: Joi.number().min(-90).max(90).required(),
   long: Joi.number().min(-180).max(180).required(),
-})
+});
 
 export const WaterfallSpec = Joi.object().keys({
   name: Joi.string().required(),
   location: LocationSpec.required(),
   description: Joi.string().optional(),
+  userid: IdSpec,
 });
 
 export const WaterfallSpecPlus = WaterfallSpec.keys({
