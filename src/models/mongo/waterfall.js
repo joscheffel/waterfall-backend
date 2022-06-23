@@ -9,6 +9,10 @@ const waterfallSchema = new Schema({
     long: Number,
   },
   description: String,
+  categories: {
+    continent: String,
+    size: String,
+  },
   userid: {
     type: Schema.Types.ObjectId,
     ref: "User",

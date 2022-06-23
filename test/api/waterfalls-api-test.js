@@ -30,7 +30,7 @@ suite("Waterfall Api Tests", () => {
       const newWaterfall = await waterfallService.createWaterfall(niagaraFallsWithoutLocation);
       assert.fail("Should not return a response");
     } catch (error) {
-      assert(error.response.data.message === "\"location\" is required");
+      assert(error.response.data.message === '"location" is required');
       assert.equal(error.response.data.statusCode, 400);
     }
   });
