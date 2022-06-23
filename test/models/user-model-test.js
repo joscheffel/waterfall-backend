@@ -8,7 +8,7 @@ suite("User Model tests", () => {
   const BAD_ID = "62b19f6f1198fa79acfa6418";
 
   setup(async () => {
-    db.init("mongo");
+    db.init();
     await db.userStore.deleteAll();
   });
 

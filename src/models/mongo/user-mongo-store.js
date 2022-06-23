@@ -34,18 +34,22 @@ export const userMongoStore = {
       const u = await this.getUserById(id);
       return u;
     }
+    console.log("id does not equal updatedUser._id");
     return {};
   },
 
   async deleteUserById(id) {
     try {
-      await User.deleteOne({ _id: id });
+      const data = await User.deleteOne({ _id: id });
+      return data.deletedCount;
     } catch (error) {
       console.log("bad id");
+      return 0;
     }
   },
 
   async deleteAll() {
-    await User.deleteMany({});
+    const data = await User.deleteMany({});
+    return data.deletedCount;
   },
 };

@@ -6,10 +6,20 @@ import Joi from "joi";
 import Cookie from "@hapi/cookie";
 
 import dotenv from "dotenv";
+import HapiSwagger from "hapi-swagger";
+import Inert from "@hapi/inert";
+import Vision from "@hapi/vision";
 import { apiRoutes } from "./api-routes.js";
 import { db } from "./models/db.js";
 import { webRoutes } from "./web-routes.js";
 import { accountsController } from "./controllers/accounts-controller.js";
+
+const swaggerOptions = {
+  info: {
+    title: "Waterfall API",
+    version: "0.1",
+  },
+};
 
 const result = dotenv.config();
 if (result.error) {
@@ -26,7 +36,7 @@ async function init() {
     host: "localhost",
   });
 
-  db.init("mongo");
+  db.init();
   server.route(apiRoutes);
   server.route(webRoutes);
 
@@ -42,6 +52,8 @@ async function init() {
     validateFunc: accountsController.validate,
   });
   server.auth.default("session");
+
+  await server.register([Inert, Vision, { plugin: HapiSwagger, options: swaggerOptions }]);
 
   await server.validator(Joi);
   await server.start();
