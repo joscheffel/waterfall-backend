@@ -33,6 +33,10 @@ export const niagaraFalls = {
     long: -79.0747,
   },
   userid: "62b1a3d7bb518502c526be1f",
+  categories: {
+    continent: "North America",
+    size: "large",
+  },
 };
 
 export const testFalls = [
@@ -44,7 +48,11 @@ export const testFalls = [
     },
     userid: "62b1a3d7bb518502c526be1f",
     description:
-      "Gullfoss ( Golden Falls; Icelandic pronunciation (help·info) [ˈkʏtl̥ˌfɔsː]) is a waterfall located in the canyon of the Hvítá river in southwest Iceland. (source: wikipedia)",
+      "Gullfoss (America Golden Falls; Icelandic pronunciation (help·info) [ˈkʏtl̥ˌfɔsː]) is a waterfall located in the canyon of the Hvítá river in southwest Iceland. (source: wikipedia)",
+    categories: {
+      continent: "Europe",
+      size: "large",
+    },
   },
   {
     name: "Krimmler Waterfalls",
@@ -53,6 +61,10 @@ export const testFalls = [
       long: 12.171389,
     },
     userid: "62b1a3d7bb518502c526be1f",
+    categories: {
+      continent: "Europe",
+      size: "large",
+    },
   },
   {
     name: "Reichenbach Falls",
@@ -61,6 +73,10 @@ export const testFalls = [
       long: 8.183056,
     },
     userid: "62b1a3d7bb518502c526be1f",
+    categories: {
+      continent: "Europe",
+      size: "large",
+    },
   },
 ];
 

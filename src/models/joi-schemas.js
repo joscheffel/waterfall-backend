@@ -29,10 +29,20 @@ export const LocationSpec = Joi.object().keys({
   long: Joi.number().min(-180).max(180).required(),
 });
 
+export const ContinentSpec = Joi.string().valid("Europe", "North America", "South America", "Africa", "Asia", "Australia");
+
+export const SizeSpec = Joi.string().valid("Small", "medium", "large");
+
+export const CategorySpec = Joi.object().keys({
+  continent: ContinentSpec.required(),
+  size: SizeSpec.required(),
+});
+
 export const WaterfallSpec = Joi.object().keys({
   name: Joi.string().required(),
   location: LocationSpec.required(),
   description: Joi.string().optional(),
+  categories: CategorySpec.required(),
   userid: IdSpec,
 });
 
