@@ -42,13 +42,16 @@ export const waterfallMongoStore = {
 
   async deleteWaterfallById(id) {
     try {
-      await Waterfall.deleteOne({ _id: id });
+      const data = await Waterfall.deleteOne({ _id: id });
+      return data.deletedCount;
     } catch (error) {
       console.log("bad id");
+      return 0;
     }
   },
 
   async deleteAll() {
-    await Waterfall.deleteMany({});
+    const data = await Waterfall.deleteMany({});
+    return data.deletedCount;
   },
 };
