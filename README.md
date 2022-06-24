@@ -29,6 +29,9 @@ This project is deployed with following link: [waterfalls-backend-service](water
 (This link is the base route for the Glitch deployment).
 
 ### Cloud Atlas
+To deploy the mongo db to [Cloud Atlas](https://www.mongodb.com/atlas/database) you need to change the value for the key db in the .env file.
+Cloud Atlas provides a connection link where you only need to add your password.
+Important: Do not upload or share this link as because it contains your credentials and might turn into a security breach.
 
 ### Heroku
 
@@ -80,3 +83,8 @@ And a sample waterfall object looks as follows:
 
 The `_id` is created by the backend.
 Later a more detailed API documentation will be provided with swagger.
+
+##Important Notes
+In-Memory and JSON memory model are deprecated starting with the version 0.3.0.
+They are no longer supported, since the new features are only tested and developed in the mongodb.
+
