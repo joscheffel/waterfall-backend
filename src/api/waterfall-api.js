@@ -5,7 +5,10 @@ import { validationError } from "./logger.js";
 
 export const waterfallApi = {
   findAll: {
-    auth: false,
+    auth: {
+      strategy: "session",
+      scope: ["user", "admin"],
+    },
     handler: async function (request, h) {
       try {
         const waterfalls = db.waterfallStore.getAllWaterfalls();
@@ -21,7 +24,10 @@ export const waterfallApi = {
   },
 
   findOne: {
-    auth: false,
+    auth: {
+      strategy: "session",
+      scope: ["user", "admin"],
+    },
     handler: async function (request, h) {
       try {
         const waterfall = await db.waterfallStore.getWaterfallById(request.params.id);
@@ -41,7 +47,10 @@ export const waterfallApi = {
   },
 
   create: {
-    auth: false,
+    auth: {
+      strategy: "session",
+      scope: ["user", "admin"],
+    },
     handler: async function (request, h) {
       try {
         const waterfall = await db.waterfallStore.addWaterfall(request.payload);
@@ -61,7 +70,10 @@ export const waterfallApi = {
   },
 
   update: {
-    auth: false,
+    auth: {
+      strategy: "session",
+      scope: ["user", "admin"],
+    },
     handler: async function (request, h) {
       try {
         const waterfall = await db.waterfallStore.updateWaterfall(request.params.id, request.payload);
@@ -81,7 +93,10 @@ export const waterfallApi = {
   },
 
   deleteAll: {
-    auth: false,
+    auth: {
+      strategy: "session",
+      scope: ["admin"],
+    },
     handler: async function (request, h) {
       try {
         const deletedCount = await db.waterfallStore.deleteAll();
@@ -99,7 +114,10 @@ export const waterfallApi = {
   },
 
   deleteOne: {
-    auth: false,
+    auth: {
+      strategy: "session",
+      scope: ["user", "admin"],
+    },
     handler: async function (request, h) {
       try {
         const deletedCount = await db.waterfallStore.deleteWaterfallById(request.params.id);

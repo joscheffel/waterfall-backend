@@ -37,9 +37,6 @@ async function init() {
   });
 
   db.init();
-  server.route(apiRoutes);
-  server.route(webRoutes);
-
   await server.register(Cookie);
 
   server.auth.strategy("session", "cookie", {
@@ -52,6 +49,9 @@ async function init() {
     validateFunc: accountsController.validate,
   });
   server.auth.default("session");
+
+  server.route(apiRoutes);
+  server.route(webRoutes);
 
   await server.register([Inert, Vision, { plugin: HapiSwagger, options: swaggerOptions }]);
 
