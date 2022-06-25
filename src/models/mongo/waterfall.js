@@ -19,4 +19,4 @@ const waterfallSchema = new Schema({
   },
 });
 
-export const Waterfall = Mongoose.model("waterfall", waterfallSchema);
+export const Waterfall = Mongoose.model("Waterfall", waterfallSchema);
