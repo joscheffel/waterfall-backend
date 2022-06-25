@@ -1,9 +1,11 @@
 import { assert } from "chai";
 import { db } from "../../src/models/db.js";
 import { maggie, testUsers } from "../fixtures.js";
+import { assertSubset } from "../test-utils.js";
 
 suite("User Model tests", () => {
   const NO_USER = 0;
+  const BAD_ID = "62b19f6f1198fa79acfa6418";
 
   setup(async () => {
     db.init();
@@ -12,7 +14,7 @@ suite("User Model tests", () => {
 
   test("create a user", async () => {
     const newUser = await db.userStore.addUser(maggie);
-    assert.deepEqual(maggie, newUser);
+    assertSubset(maggie, newUser);
   });
 
   test("delete all users", async () => {
@@ -53,10 +55,12 @@ suite("User Model tests", () => {
     user.email = "ma@simpson.com";
     const updatedUser = await db.userStore.updateUser(user._id, user);
     assert.deepEqual(updatedUser, user);
+    const updatedUserInDb = await db.userStore.getUserById(user._id);
+    assert.deepEqual(updatedUserInDb, user);
   });
 
   test("get a user - failures", async () => {
-    const noUserWithId = await db.userStore.getUserById("123");
+    const noUserWithId = await db.userStore.getUserById();
     assert.isEmpty(noUserWithId);
     const noUserWithEmail = await db.userStore.getUserByEmail("no@one.com");
     assert.isEmpty(noUserWithEmail);
@@ -84,7 +88,7 @@ suite("User Model tests", () => {
     user.email = "ma@simpson.com";
     user._id = "bad-id";
     const allUsers = await db.userStore.getAllUsers();
-    const updatedUser = await db.userStore.updateUser(user._id, user);
+    const updatedUser = await db.userStore.updateUser(BAD_ID, user);
     const allUsersAfterUpdate = await db.userStore.getAllUsers();
     assert.equal(allUsersAfterUpdate.length, allUsers.length);
     assert.notDeepEqual(updatedUser, user);

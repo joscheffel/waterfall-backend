@@ -49,6 +49,14 @@ export const accountsController = {
     if (!user) {
       return { valid: false };
     }
+
+    let scope = "user";
+    if (user.isAdmin) {
+      scope = "admin";
+    }
+
+    user.scope = scope;
+
     return { valid: true, credentials: user };
   },
 };
