@@ -1,5 +1,5 @@
 import { assert } from "chai";
-import { niagaraFalls, testFalls } from "../fixtures.js";
+import { maggie, maggieCredentials, niagaraFalls, testFalls } from "../fixtures.js";
 import { waterfallService } from "./waterfall-service.js";
 import { assertSubset } from "../test-utils.js";
 
@@ -8,13 +8,15 @@ const NO_WATERFALLS = 0;
 const BAD_ID = "62b19f6f1198fa79acfa6418";
 
 suite("Waterfall Api Tests", () => {
+  let user = null;
   setup(async () => {
+    user = await waterfallService.createUser(maggie);
+    await waterfallService.authenticate(user);
     await waterfallService.deleteAllWaterfalls();
-    for (let i = 0; i < testFalls.length; i += 1) {
-      // eslint-disable-next-line no-await-in-loop
-      waterfalls[i] = await waterfallService.createWaterfall(testFalls[i]);
-    }
-    await waterfallService.createWaterfall(niagaraFalls);
+    await waterfallService.deleteAllUsers();
+    user = await waterfallService.createUser(maggie);
+    await waterfallService.authenticate(maggieCredentials);
+    niagaraFalls.userid = user._id;
   });
 
   test("create a waterfall", async () => {
@@ -36,14 +38,22 @@ suite("Waterfall Api Tests", () => {
   });
 
   test("delete all waterfalls", async () => {
+    for (let i = 0; i < testFalls.length; i += 1) {
+      // eslint-disable-next-line no-await-in-loop
+      await waterfallService.createWaterfall(testFalls[0]);
+    }
     let returnedFalls = await waterfallService.getAllWaterfalls();
-    assert.equal(returnedFalls.length, testFalls.length + 1); // + 1 is niagaraFalls
+    assert.equal(returnedFalls.length, testFalls.length);
     await waterfallService.deleteAllWaterfalls();
     returnedFalls = await waterfallService.getAllWaterfalls();
     assert.equal(returnedFalls.length, NO_WATERFALLS);
   });
 
   test("get a waterfall", async () => {
+    for (let i = 0; i < testFalls.length; i += 1) {
+      // eslint-disable-next-line no-await-in-loop
+      waterfalls[i] = await waterfallService.createWaterfall(testFalls[0]);
+    }
     const returnedFall = await waterfallService.getWaterfall(waterfalls[0]._id);
     assert.deepEqual(waterfalls[0], returnedFall);
   });

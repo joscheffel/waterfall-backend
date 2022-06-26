@@ -1,13 +1,13 @@
 import Boom from "@hapi/boom";
 import { db } from "../models/db.js";
-import { IdObjectSpec, IdSpec, UserArray, UserSpec, UserSpecPlus } from "../models/joi-schemas.js";
+import { IdObjectSpec, UserArray, UserSpec, UserSpecPlus } from "../models/joi-schemas.js";
 import { validationError } from "./logger.js";
+import { createToken } from "./jwt-utils.js";
 
 export const userApi = {
   findAll: {
     auth: {
-      strategy: "session",
-      scope: "admin",
+      strategy: "jwt",
     },
     handler: async function (request, h) {
       try {
@@ -25,8 +25,7 @@ export const userApi = {
 
   findOne: {
     auth: {
-      strategy: "session",
-      scope: ["user", "admin"],
+      strategy: "jwt",
     },
     handler: async function (request, h) {
       try {
@@ -47,10 +46,7 @@ export const userApi = {
   },
 
   create: {
-    auth: {
-      strategy: "session",
-      scope: ["user", "admin"],
-    },
+    auth: false,
     handler: async function (request, h) {
       try {
         const user = await db.userStore.addUser(request.payload);
@@ -71,8 +67,7 @@ export const userApi = {
 
   update: {
     auth: {
-      strategy: "session",
-      scope: ["user", "admin"],
+      strategy: "jwt",
     },
     handler: async function (request, h) {
       try {
@@ -95,8 +90,7 @@ export const userApi = {
 
   deleteAll: {
     auth: {
-      strategy: "session",
-      scope: "admin",
+      strategy: "jwt",
     },
     handler: async function (request, h) {
       try {
@@ -104,7 +98,7 @@ export const userApi = {
         if (deletedCount > 0) {
           return h.response().code(204);
         }
-        return h.response("No Users were deleted").code(404);
+        return h.response("No Users were deleted").code(204);
       } catch (err) {
         return Boom.serverUnavailable("Database error");
       }
@@ -116,8 +110,7 @@ export const userApi = {
 
   deleteOne: {
     auth: {
-      strategy: "session",
-      scope: "admin",
+      strategy: "jwt",
     },
     handler: async function (request, h) {
       try {
@@ -134,5 +127,24 @@ export const userApi = {
     description: "Deletes one user",
     notes: "Specific user is removed from the waterfall service",
     validate: { params: IdObjectSpec, failAction: validationError },
+  },
+
+  authenticate: {
+    auth: false,
+    handler: async function (request, h) {
+      try {
+        const user = await db.userStore.getUserByEmail(request.payload.email);
+        if (!user) {
+          return Boom.unauthorized("User not found");
+        }
+        if (user.password !== request.payload.password) {
+          return Boom.unauthorized("Invalid password");
+        }
+        const token = createToken(user);
+        return h.response({ success: true, token: token }).code(201);
+      } catch (err) {
+        return Boom.serverUnavailable("Database Error");
+      }
+    },
   },
 };

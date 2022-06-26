@@ -1,5 +1,5 @@
 import { assert } from "chai";
-import { maggie, testUsers } from "../fixtures.js";
+import { maggie, maggieCredentials, niagaraFalls, testUsers } from "../fixtures.js";
 import { waterfallService } from "./waterfall-service.js";
 import { assertSubset } from "../test-utils.js";
 
@@ -7,13 +7,14 @@ const users = new Array(testUsers.length);
 const NO_USERS = 0;
 
 suite("User Api Tests", () => {
+  let user = null;
+
   setup(async () => {
+    user = await waterfallService.createUser(maggie);
+    await waterfallService.authenticate(user);
     await waterfallService.deleteAllUsers();
-    for (let i = 0; i < testUsers.length; i += 1) {
-      // eslint-disable-next-line no-await-in-loop
-      users[i] = await waterfallService.createUser(testUsers[i]);
-    }
-    await waterfallService.createUser(maggie);
+    user = await waterfallService.createUser(maggie);
+    await waterfallService.authenticate(user);
   });
 
   test("create a user", async () => {
@@ -23,6 +24,11 @@ suite("User Api Tests", () => {
   });
 
   test("delete all user", async () => {
+    for (let i = 0; i < testUsers.length; i += 1) {
+      console.log(testUsers[i]);
+      // eslint-disable-next-line no-await-in-loop
+      await waterfallService.createUser(testUsers[i]);
+    }
     let returnedUsers = await waterfallService.getAllUsers();
     assert.equal(returnedUsers.length, testUsers.length + 1); // + 1 is maggie
     await waterfallService.deleteAllUsers();
@@ -31,6 +37,11 @@ suite("User Api Tests", () => {
   });
 
   test("get a user", async () => {
+    for (let i = 0; i < testUsers.length; i += 1) {
+      console.log(testUsers[i]);
+      // eslint-disable-next-line no-await-in-loop
+      users[i] = await waterfallService.createUser(testUsers[i]);
+    }
     const returnedUser = await waterfallService.getUser(users[0]._id);
     assert.deepEqual(users[0], returnedUser);
   });
@@ -46,6 +57,11 @@ suite("User Api Tests", () => {
   });
 
   test("get a user - deleted user", async () => {
+    for (let i = 0; i < testUsers.length; i += 1) {
+      console.log(testUsers[i]);
+      // eslint-disable-next-line no-await-in-loop
+      users[i] = await waterfallService.createUser(testUsers[i]);
+    }
     await waterfallService.deleteAllUsers();
     try {
       const returnedUser = await waterfallService.getUser(users[0]._id);
@@ -80,7 +96,7 @@ suite("User Api Tests", () => {
       assert.fail("Should not return a response");
     } catch (error) {
       console.log(error);
-      assert(error.response.data.message === "Cannot find user to update");
+      assert(error.response.data.message === "Cannot find user to update. Check your id and _id for equality");
       assert.equal(error.response.data.statusCode, 404);
     }
   });

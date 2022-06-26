@@ -8,6 +8,7 @@ export const apiRoutes = [
   { method: "DELETE", path: "/api/users/{id}", config: userApi.deleteOne },
   { method: "GET", path: "/api/users/{id}", config: userApi.findOne },
   { method: "PUT", path: "/api/users/{id}", config: userApi.update },
+  { method: "POST", path: "/api/users/authenticate", config: userApi.authenticate },
 
   { method: "POST", path: "/api/waterfalls", config: waterfallApi.create },
   { method: "GET", path: "/api/waterfalls", config: waterfallApi.findAll },
