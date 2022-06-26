@@ -10,7 +10,7 @@ export const waterfallApi = {
     },
     handler: async function (request, h) {
       try {
-        const waterfalls = db.waterfallStore.getAllWaterfalls();
+        const waterfalls = await db.waterfallStore.getAllWaterfalls();
         return waterfalls;
       } catch (err) {
         return Boom.serverUnavailable("Database Error");
@@ -91,6 +91,7 @@ export const waterfallApi = {
   deleteAll: {
     auth: {
       strategy: "jwt",
+      scope: "admin",
     },
     handler: async function (request, h) {
       try {

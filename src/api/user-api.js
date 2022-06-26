@@ -8,6 +8,7 @@ export const userApi = {
   findAll: {
     auth: {
       strategy: "jwt",
+      scope: "admin",
     },
     handler: async function (request, h) {
       try {
@@ -26,6 +27,7 @@ export const userApi = {
   findOne: {
     auth: {
       strategy: "jwt",
+      scope: "admin",
     },
     handler: async function (request, h) {
       try {
@@ -91,6 +93,7 @@ export const userApi = {
   deleteAll: {
     auth: {
       strategy: "jwt",
+      scope: "admin",
     },
     handler: async function (request, h) {
       try {
