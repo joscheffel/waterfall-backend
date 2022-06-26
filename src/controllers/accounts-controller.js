@@ -12,7 +12,6 @@ export const accountsController = {
     },
     handler: async function (request, h) {
       const user = request.payload;
-      console.log(user);
       await db.userStore.addUser(user);
       return { success: true };
     },

@@ -1,5 +1,5 @@
-import { serviceUrl } from "../fixtures.js";
 import axios from "axios";
+import { serviceUrl } from "../fixtures.js";
 
 export const waterfallService = {
   waterfallUrl: serviceUrl,
@@ -57,5 +57,15 @@ export const waterfallService = {
   async updateWaterfall(id, updatedWaterfall) {
     const res = await axios.put(`${this.waterfallUrl}/api/waterfalls/${id}`, updatedWaterfall);
     return res.data;
+  },
+
+  async authenticate(user) {
+    const response = await axios.post(`${this.waterfallUrl}/api/users/authenticate`, user);
+    axios.defaults.headers.common.Authorization = `Bearer ${response.data.token}`;
+    return response.data;
+  },
+
+  async clearAuth() {
+    axios.defaults.headers.common.Authorization = "";
   },
 };

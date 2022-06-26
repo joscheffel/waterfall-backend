@@ -10,7 +10,7 @@ export const seedData = {
     arnold: {
       firstName: "Arnold",
       lastName: "Schwarzenegger",
-      email: "arnold@schwarzenegger",
+      email: "arnold@schwarzenegger.de",
       password: "secret",
     },
     admin: {
@@ -33,7 +33,7 @@ export const seedData = {
         "Gullfoss (America Golden Falls; Icelandic pronunciation (help·info) [ˈkʏtl̥ˌfɔsː]) is a waterfall located in the canyon of the Hvítá river in southwest Iceland. (source: wikipedia)",
       categories: {
         continent: "Europe",
-        size: "large",
+        size: "Large",
       },
     },
     krimmler: {
@@ -45,7 +45,7 @@ export const seedData = {
       userid: "->users.arnold",
       categories: {
         continent: "Europe",
-        size: "large",
+        size: "Large",
       },
     },
     reichenbach: {
@@ -57,7 +57,7 @@ export const seedData = {
       userid: "->users.johnny",
       categories: {
         continent: "Europe",
-        size: "large",
+        size: "Large",
       },
     },
     niagara: {
@@ -69,7 +69,7 @@ export const seedData = {
       userid: "->users.admin",
       categories: {
         continent: "North America",
-        size: "large",
+        size: "Large",
       },
     },
   },

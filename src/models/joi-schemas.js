@@ -31,7 +31,7 @@ export const LocationSpec = Joi.object().keys({
 
 export const ContinentSpec = Joi.string().valid("Europe", "North America", "South America", "Africa", "Asia", "Australia").example("North America");
 
-export const SizeSpec = Joi.string().valid("Small", "medium", "large").example("large");
+export const SizeSpec = Joi.string().valid("Small", "Medium", "Large").example("large");
 
 export const CategorySpec = Joi.object().keys({
   continent: ContinentSpec.required(),
