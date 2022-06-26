@@ -25,7 +25,6 @@ suite("User Api Tests", () => {
 
   test("delete all user", async () => {
     for (let i = 0; i < testUsers.length; i += 1) {
-      console.log(testUsers[i]);
       // eslint-disable-next-line no-await-in-loop
       await waterfallService.createUser(testUsers[i]);
     }
@@ -38,7 +37,6 @@ suite("User Api Tests", () => {
 
   test("get a user", async () => {
     for (let i = 0; i < testUsers.length; i += 1) {
-      console.log(testUsers[i]);
       // eslint-disable-next-line no-await-in-loop
       users[i] = await waterfallService.createUser(testUsers[i]);
     }
@@ -58,7 +56,6 @@ suite("User Api Tests", () => {
 
   test("get a user - deleted user", async () => {
     for (let i = 0; i < testUsers.length; i += 1) {
-      console.log(testUsers[i]);
       // eslint-disable-next-line no-await-in-loop
       users[i] = await waterfallService.createUser(testUsers[i]);
     }

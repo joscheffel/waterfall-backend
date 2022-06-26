@@ -74,7 +74,6 @@ export const userApi = {
     handler: async function (request, h) {
       try {
         const user = await db.userStore.updateUser(request.params.id, request.payload);
-        console.log(user);
         if (Object.keys(user).length === 0) {
           return Boom.notFound("Cannot find user to update. Check your id and _id for equality");
         }
