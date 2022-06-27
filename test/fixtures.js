@@ -86,4 +86,28 @@ export const testFalls = [
   },
 ];
 
+export const mockImageObject = {
+  name: "mocked image object",
+  waterfallId: "62b1a3d7bb518502c526be20",
+  imagePath: "./upload/d5b318bcdad5b5829cda4feb7964d12a/mockedImage.jpg",
+};
+
+export const testImages = [
+  {
+    name: "mocked image object 1",
+    waterfallId: "62b1a3d7bb518502c526be22",
+    imagePath: "./upload/d5b318bcdad5b5829cda4feb7964d12a/mockedImage1.jpg",
+  },
+  {
+    name: "mocked image object 2",
+    waterfallId: "62b1a3d7bb518502c526be22",
+    imagePath: "./upload/d5b318bcdad5b5829cda4feb7964d12a/mockedImage2.jpg",
+  },
+  {
+    name: "mocked image object 3",
+    waterfallId: "62b1a3d7bb518502c526be24",
+    imagePath: "./upload/d5b318bcdad5b5829cda4feb7964d12a/mockedImage3.jpg",
+  },
+];
+
 export const serviceUrl = "http://localhost:3000";

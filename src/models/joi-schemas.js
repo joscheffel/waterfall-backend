@@ -54,3 +54,28 @@ export const WaterfallSpecPlus = WaterfallSpec.keys({
 }).label("WaterfallDetailsPlus");
 
 export const WaterfallArray = Joi.array().items(WaterfallSpecPlus).label("WaterfallArray");
+
+export const ImageSpec = Joi.object()
+  .keys({
+    name: Joi.string().required(),
+    waterfallId: IdSpec,
+    file: Joi.any().required().description("image file"),
+  })
+  .label("ImageDetails");
+
+export const ImageSpecPlus = Joi.object()
+  .keys({
+    name: Joi.string().required(),
+    waterfallId: IdSpec,
+    imagePath: Joi.string().required(),
+    _id: IdSpec,
+    __v: Joi.number(),
+  })
+  .label("ImageDetailsPlus");
+
+export const ImageArray = Joi.array().items(ImageSpecPlus).label("ImageArray");
+
+export const ImageObjectParams = Joi.object().keys({
+  dayHash: Joi.string().required(),
+  imageName: Joi.string().required(),
+});
