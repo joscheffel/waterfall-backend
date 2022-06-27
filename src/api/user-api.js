@@ -70,6 +70,7 @@ export const userApi = {
   update: {
     auth: {
       strategy: "jwt",
+      scope: "admin",
     },
     handler: async function (request, h) {
       try {

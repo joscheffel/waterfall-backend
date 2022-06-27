@@ -1,6 +1,7 @@
 import { userApi } from "./api/user-api.js";
 import { waterfallApi } from "./api/waterfall-api.js";
 import { imageApi } from "./api/image-api.js";
+import { analyticsApi } from "./api/analytics-api.js";
 
 export const apiRoutes = [
   { method: "POST", path: "/api/users", config: userApi.create },
@@ -23,4 +24,7 @@ export const apiRoutes = [
   { method: "DELETE", path: "/api/images", config: imageApi.deleteAll },
   { method: "DELETE", path: "/api/images/{id}", config: imageApi.deleteImage },
   { method: "GET", path: "/upload/{dayHash}/{imageName}", config: imageApi.retrieveImage },
+
+  { method: "GET", path: "/admin/api/analytics", config: analyticsApi.listAllUsers },
+  { method: "GET", path: "/admin/api/analytics/{id}", config: analyticsApi.showUserDetails },
 ];
