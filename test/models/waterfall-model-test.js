@@ -18,6 +18,7 @@ suite("Waterfall Model tests", () => {
   });
 
   test("delete all waterfalls", async () => {
+    await db.waterfallStore.deleteAll();
     for (let i = 0; i < testFalls.length; i += 1) {
       // eslint-disable-next-line no-await-in-loop
       await db.waterfallStore.addWaterfall(testFalls[i]);

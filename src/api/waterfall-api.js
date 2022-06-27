@@ -6,12 +6,11 @@ import { validationError } from "./logger.js";
 export const waterfallApi = {
   findAll: {
     auth: {
-      strategy: "session",
-      scope: ["user", "admin"],
+      strategy: "jwt",
     },
     handler: async function (request, h) {
       try {
-        const waterfalls = db.waterfallStore.getAllWaterfalls();
+        const waterfalls = await db.waterfallStore.getAllWaterfalls();
         return waterfalls;
       } catch (err) {
         return Boom.serverUnavailable("Database Error");
@@ -25,8 +24,7 @@ export const waterfallApi = {
 
   findOne: {
     auth: {
-      strategy: "session",
-      scope: ["user", "admin"],
+      strategy: "jwt",
     },
     handler: async function (request, h) {
       try {
@@ -48,8 +46,7 @@ export const waterfallApi = {
 
   create: {
     auth: {
-      strategy: "session",
-      scope: ["user", "admin"],
+      strategy: "jwt",
     },
     handler: async function (request, h) {
       try {
@@ -71,8 +68,7 @@ export const waterfallApi = {
 
   update: {
     auth: {
-      strategy: "session",
-      scope: ["user", "admin"],
+      strategy: "jwt",
     },
     handler: async function (request, h) {
       try {
@@ -94,8 +90,8 @@ export const waterfallApi = {
 
   deleteAll: {
     auth: {
-      strategy: "session",
-      scope: ["admin"],
+      strategy: "jwt",
+      scope: "admin",
     },
     handler: async function (request, h) {
       try {
@@ -103,7 +99,7 @@ export const waterfallApi = {
         if (deletedCount > 0) {
           return h.response().code(204);
         }
-        return h.response("No Waterfalls were deleted").code(404);
+        return h.response("No Waterfalls were deleted").code(204);
       } catch (err) {
         return Boom.serverUnavailable("Database Error");
       }
@@ -115,8 +111,7 @@ export const waterfallApi = {
 
   deleteOne: {
     auth: {
-      strategy: "session",
-      scope: ["user", "admin"],
+      strategy: "jwt",
     },
     handler: async function (request, h) {
       try {

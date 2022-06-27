@@ -9,10 +9,12 @@ import dotenv from "dotenv";
 import HapiSwagger from "hapi-swagger";
 import Inert from "@hapi/inert";
 import Vision from "@hapi/vision";
+import jwt from "hapi-auth-jwt2";
 import { apiRoutes } from "./api-routes.js";
 import { db } from "./models/db.js";
 import { webRoutes } from "./web-routes.js";
 import { accountsController } from "./controllers/accounts-controller.js";
+import { validate } from "./api/jwt-utils.js";
 
 const swaggerOptions = {
   info: {
@@ -24,7 +26,7 @@ const swaggerOptions = {
 const result = dotenv.config();
 if (result.error) {
   console.log(result.error.message);
-  process.exit(1);
+  // process.exit(1);
 }
 
 const __filename = fileURLToPath(import.meta.url);
@@ -32,8 +34,7 @@ const __dirname = path.dirname(__filename);
 
 async function init() {
   const server = Hapi.server({
-    port: 3000,
-    host: "localhost",
+    port: process.env.PORT || 3000,
   });
 
   db.init();
@@ -50,10 +51,17 @@ async function init() {
   });
   server.auth.default("session");
 
+  await server.register([Inert, Vision, { plugin: HapiSwagger, options: swaggerOptions }]);
+
+  await server.register(jwt);
+  server.auth.strategy("jwt", "jwt", {
+    key: process.env.COOKIE_PASSWORD,
+    validate: validate,
+    verifyOptions: { algorithms: ["HS256"] },
+  });
+
   server.route(apiRoutes);
   server.route(webRoutes);
-
-  await server.register([Inert, Vision, { plugin: HapiSwagger, options: swaggerOptions }]);
 
   await server.validator(Joi);
   await server.start();

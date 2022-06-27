@@ -20,8 +20,8 @@ To start the backend use the following command: `npm start`. Now the application
 port `3000`. The base url of the service is `http://localhost:3000`.
 
 ## Deployment
-
-These are placeholder for later. They will be added once the application got deployed via this mechanism.
+In this section three different deployment methods for this project are explained.
+Two of them (Glitch & Heroku) are for the application and Cloud Atlas is for the mongoDB.
 
 ### Glitch
 To deploy to glitch you just need to connect you glitch account with your github account. Then import it by using the gihub repo link. It always uses the main branch by default. When directly importing is not working try other possiblities suggested in the [glitch help forum](https://help.glitch.com/kb/article/20-importing-code-from-github/).
@@ -34,6 +34,31 @@ Cloud Atlas provides a connection link where you only need to add your password.
 Important: Do not upload or share this link as because it contains your credentials and might turn into a security breach.
 
 ### Heroku
+To deploy the application to [Heroku](https://www.heroku.com/) you need to either use the command line tool heroku or do it visually in the webapp.
+####Command Line
+First you need to log in: `heroku login`.
+Then you have to create a new app: `heroku create`.
+The next step is to define a git remote via: `heroku git:remote -a <you app name in heroku>` (You can find this command in the heroku webapp in the section deploy of you app).
+The last step is to call `git push heroku main`.
+Now you should get offered links to your application.
+
+####Heroku WebApp
+Go to your dashboard in Heroku after signing up/in.
+Create a new app and select it.
+Next go to the section `Deploy`.
+You can now connect to your Github.
+Select the right repository and the branch you want to deploy.
+You can Enable Automatic Deploys, to always get the latest main version.
+Make sure you select the main branch.
+Another option is to deploy manually the main branch.
+Here you have to make sure, to always look out for updates.
+
+#### .env Properties
+Since we do not commit the .env file, we need to define the properties in another way.
+Go for that into the app's settings and press under the section `Config Vars` the button ``Reveal Config Vars``.
+Now you can set all properties from you local .env file.
+Make sure to use secure passwords.
+Remember that the .env properties are case sensitive, `COOKIE_NAME` and `cookie_name` are not the same!
 
 ---
 ##Documentation

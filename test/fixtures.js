@@ -3,6 +3,12 @@ export const maggie = {
   lastName: "Simpson",
   email: "maggie@simpson.com",
   password: "secret",
+  isAdmin: true,
+};
+
+export const maggieCredentials = {
+  email: "maggie@simpson.com",
+  password: "secret",
 };
 
 export const testUsers = [
@@ -35,7 +41,7 @@ export const niagaraFalls = {
   userid: "62b1a3d7bb518502c526be1f",
   categories: {
     continent: "North America",
-    size: "large",
+    size: "Large",
   },
 };
 
@@ -51,7 +57,7 @@ export const testFalls = [
       "Gullfoss (America Golden Falls; Icelandic pronunciation (help·info) [ˈkʏtl̥ˌfɔsː]) is a waterfall located in the canyon of the Hvítá river in southwest Iceland. (source: wikipedia)",
     categories: {
       continent: "Europe",
-      size: "large",
+      size: "Large",
     },
   },
   {
@@ -63,7 +69,7 @@ export const testFalls = [
     userid: "62b1a3d7bb518502c526be1f",
     categories: {
       continent: "Europe",
-      size: "large",
+      size: "Large",
     },
   },
   {
@@ -75,8 +81,32 @@ export const testFalls = [
     userid: "62b1a3d7bb518502c526be1f",
     categories: {
       continent: "Europe",
-      size: "large",
+      size: "Large",
     },
+  },
+];
+
+export const mockImageObject = {
+  name: "mocked image object",
+  waterfallId: "62b1a3d7bb518502c526be20",
+  imagePath: "./upload/d5b318bcdad5b5829cda4feb7964d12a/mockedImage.jpg",
+};
+
+export const testImages = [
+  {
+    name: "mocked image object 1",
+    waterfallId: "62b1a3d7bb518502c526be22",
+    imagePath: "./upload/d5b318bcdad5b5829cda4feb7964d12a/mockedImage1.jpg",
+  },
+  {
+    name: "mocked image object 2",
+    waterfallId: "62b1a3d7bb518502c526be22",
+    imagePath: "./upload/d5b318bcdad5b5829cda4feb7964d12a/mockedImage2.jpg",
+  },
+  {
+    name: "mocked image object 3",
+    waterfallId: "62b1a3d7bb518502c526be24",
+    imagePath: "./upload/d5b318bcdad5b5829cda4feb7964d12a/mockedImage3.jpg",
   },
 ];
 

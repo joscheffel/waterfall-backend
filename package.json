@@ -7,7 +7,8 @@
   "scripts": {
     "start": "node src/server.js",
     "dev": "./node_modules/.bin/nodemon  src/server.js",
-    "lint": "./node_modules/.bin/eslint . --ext .js"
+    "lint": "./node_modules/.bin/eslint . --ext .js",
+    "test": "./node_modules/mocha/bin/mocha.js --ui tdd test/*/**.js"
   },
   "repository": {
     "type": "git",
@@ -37,10 +38,13 @@
     "@hapi/inert": "^6.0.5",
     "@hapi/vision": "^6.1.0",
     "dotenv": "^16.0.1",
+    "hapi-auth-jwt2": "^10.2.0",
     "hapi-swagger": "^14.5.5",
     "joi": "^17.6.0",
+    "jsonwebtoken": "^8.5.1",
     "lowdb": "^3.0.0",
     "mais-mongoose-seeder": "^1.0.7",
+    "md5": "^2.3.0",
     "mongoose": "^6.4.0",
     "uuid": "^8.3.2"
   },

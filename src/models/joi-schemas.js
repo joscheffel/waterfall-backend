@@ -31,7 +31,7 @@ export const LocationSpec = Joi.object().keys({
 
 export const ContinentSpec = Joi.string().valid("Europe", "North America", "South America", "Africa", "Asia", "Australia").example("North America");
 
-export const SizeSpec = Joi.string().valid("Small", "medium", "large").example("large");
+export const SizeSpec = Joi.string().valid("Small", "Medium", "Large").example("large");
 
 export const CategorySpec = Joi.object().keys({
   continent: ContinentSpec.required(),
@@ -54,3 +54,28 @@ export const WaterfallSpecPlus = WaterfallSpec.keys({
 }).label("WaterfallDetailsPlus");
 
 export const WaterfallArray = Joi.array().items(WaterfallSpecPlus).label("WaterfallArray");
+
+export const ImageSpec = Joi.object()
+  .keys({
+    name: Joi.string().required(),
+    waterfallId: IdSpec,
+    file: Joi.any().required().description("image file"),
+  })
+  .label("ImageDetails");
+
+export const ImageSpecPlus = Joi.object()
+  .keys({
+    name: Joi.string().required(),
+    waterfallId: IdSpec,
+    imagePath: Joi.string().required(),
+    _id: IdSpec,
+    __v: Joi.number(),
+  })
+  .label("ImageDetailsPlus");
+
+export const ImageArray = Joi.array().items(ImageSpecPlus).label("ImageArray");
+
+export const ImageObjectParams = Joi.object().keys({
+  dayHash: Joi.string().required(),
+  imageName: Joi.string().required(),
+});
