@@ -3,7 +3,7 @@ import { db } from "../models/db.js";
 import { IdObjectSpec, UserArray, UserSpec, UserSpecPlus } from "../models/joi-schemas.js";
 import { validationError } from "./logger.js";
 import { createToken } from "../util/jwt-utils.js";
-import { verifyUniqueUser } from "../util/pre-handler-functions.js";
+import { verifyOnlyAdminUserCanChangeAdminPrivilege, verifyUniqueUser, verifyUserWithIdOrAdmin } from "../util/pre-handler-functions.js";
 
 export const userApi = {
   findAll: {
@@ -28,8 +28,8 @@ export const userApi = {
   findOne: {
     auth: {
       strategy: "jwt",
-      scope: "admin",
     },
+    pre: [verifyUserWithIdOrAdmin],
     handler: async function (request, h) {
       try {
         const user = await db.userStore.getUserById(request.params.id);
@@ -75,8 +75,8 @@ export const userApi = {
   update: {
     auth: {
       strategy: "jwt",
-      scope: "admin",
     },
+    pre: [verifyUserWithIdOrAdmin, verifyOnlyAdminUserCanChangeAdminPrivilege],
     handler: async function (request, h) {
       try {
         const user = await db.userStore.updateUser(request.params.id, request.payload);
@@ -149,7 +149,7 @@ export const userApi = {
           return Boom.unauthorized("Invalid password");
         }
         const token = createToken(user);
-        return h.response({ success: true, token: token }).code(201);
+        return h.response({ success: true, token: token, userid: user._id, isAdmin: user.isAdmin }).code(201);
       } catch (err) {
         return Boom.serverUnavailable("Database Error");
       }

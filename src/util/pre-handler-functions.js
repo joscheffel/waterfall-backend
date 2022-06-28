@@ -21,3 +21,18 @@ export async function verifyUniqueWaterfall(request, h) {
   }
   return request;
 }
+
+export async function verifyUserWithIdOrAdmin(request, h) {
+  if (request.auth.credentials._id === undefined) throw Boom.badRequest("Invalid Id");
+  if (request.auth.credentials._id.toString() === request.params.id || request.auth.credentials.isAdmin) {
+    return request;
+  }
+  throw Boom.forbidden("You cannot access this data");
+}
+
+export async function verifyOnlyAdminUserCanChangeAdminPrivilege(request, h) {
+  if (!request.auth.credentials.isAdmin && request.payload.isAdmin) {
+    throw Boom.forbidden("You aren't privileged to change admin status.");
+  }
+  return request;
+}

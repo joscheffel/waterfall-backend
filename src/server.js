@@ -19,7 +19,7 @@ import { validate } from "./util/jwt-utils.js";
 const swaggerOptions = {
   info: {
     title: "Waterfall API",
-    version: "0.1",
+    version: "0.4",
   },
 };
 
@@ -34,7 +34,10 @@ const __dirname = path.dirname(__filename);
 
 async function init() {
   const server = Hapi.server({
-    port: process.env.PORT || 3000,
+    port: process.env.PORT || 4000,
+    routes: {
+      cors: true,
+    },
   });
 
   db.init();
