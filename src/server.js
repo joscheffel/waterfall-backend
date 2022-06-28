@@ -14,7 +14,7 @@ import { apiRoutes } from "./api-routes.js";
 import { db } from "./models/db.js";
 import { webRoutes } from "./web-routes.js";
 import { accountsController } from "./controllers/accounts-controller.js";
-import { validate } from "./api/jwt-utils.js";
+import { validate } from "./util/jwt-utils.js";
 
 const swaggerOptions = {
   info: {

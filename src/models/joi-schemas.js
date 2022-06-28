@@ -11,9 +11,14 @@ export const UserCredentialsSpec = Joi.object().keys({
   password: Joi.string().example("secret").required(),
 });
 
-export const UserSpec = UserCredentialsSpec.keys({
+export const UserSpecReduced = UserCredentialsSpec.keys({
   firstName: Joi.string().example("Homer").required(),
   lastName: Joi.string().example("Simpson").required(),
+})
+  .label("UserDetailsReduced")
+  .description("Does not contain the admin property, so that a new registered user, cannot achieve admin privileges");
+
+export const UserSpec = UserSpecReduced.keys({
   isAdmin: Joi.boolean().example("false").optional().default(false),
 }).label("UserDetails");
 

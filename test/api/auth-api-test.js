@@ -1,7 +1,7 @@
 import { assert } from "chai";
 import { waterfallService } from "./waterfall-service.js";
 import { maggie, maggieCredentials } from "../fixtures.js";
-import { decodeToken } from "../../src/api/jwt-utils.js";
+import { decodeToken } from "../../src/util/jwt-utils.js";
 
 suite("Authentication API tests", async () => {
   setup(async () => {
