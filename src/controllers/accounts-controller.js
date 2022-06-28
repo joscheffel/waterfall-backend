@@ -1,11 +1,13 @@
 import { db } from "../models/db.js";
-import { UserCredentialsSpec, UserSpec } from "../models/joi-schemas.js";
+import { UserCredentialsSpec, UserSpec, UserSpecReduced } from "../models/joi-schemas.js";
+import { verifyUniqueUser } from "../util/pre-handler-functions.js";
 
 export const accountsController = {
   signup: {
     auth: false,
+    pre: [{ method: verifyUniqueUser }],
     validate: {
-      payload: UserSpec,
+      payload: UserSpecReduced,
       failAction: function (request, h, error) {
         return h.response({ errors: error.details }).takeover().code(400);
       },

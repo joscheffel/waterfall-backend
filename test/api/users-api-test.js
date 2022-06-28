@@ -10,6 +10,7 @@ suite("User Api Tests", () => {
   let user = null;
 
   setup(async () => {
+    maggie.email = new Date().getUTCSeconds() + maggie.email; // to guarantee a unique user
     user = await waterfallService.createUser(maggie);
     await waterfallService.authenticate(user);
     await waterfallService.deleteAllUsers();
@@ -18,6 +19,7 @@ suite("User Api Tests", () => {
   });
 
   test("create a user", async () => {
+    maggie.email = new Date().getUTCSeconds() + maggie.email; // to guarantee a unique user
     const newUser = await waterfallService.createUser(maggie);
     assertSubset(maggie, newUser);
     assert.isDefined(newUser._id);

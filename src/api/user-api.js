@@ -2,7 +2,8 @@ import Boom from "@hapi/boom";
 import { db } from "../models/db.js";
 import { IdObjectSpec, UserArray, UserSpec, UserSpecPlus } from "../models/joi-schemas.js";
 import { validationError } from "./logger.js";
-import { createToken } from "./jwt-utils.js";
+import { createToken } from "../util/jwt-utils.js";
+import { verifyUniqueUser } from "../util/pre-handler-functions.js";
 
 export const userApi = {
   findAll: {
@@ -48,7 +49,11 @@ export const userApi = {
   },
 
   create: {
-    auth: false,
+    auth: {
+      strategy: "jwt",
+      scope: "admin",
+    },
+    pre: [{ method: verifyUniqueUser }],
     handler: async function (request, h) {
       try {
         const user = await db.userStore.addUser(request.payload);

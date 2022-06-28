@@ -2,6 +2,7 @@ import Boom from "@hapi/boom";
 import { db } from "../models/db.js";
 import { IdObjectSpec, WaterfallArray, WaterfallSpec, WaterfallSpecPlus } from "../models/joi-schemas.js";
 import { validationError } from "./logger.js";
+import { verifyUniqueWaterfall } from "../util/pre-handler-functions.js";
 
 export const waterfallApi = {
   findAll: {
@@ -48,6 +49,7 @@ export const waterfallApi = {
     auth: {
       strategy: "jwt",
     },
+    pre: [{ method: verifyUniqueWaterfall }],
     handler: async function (request, h) {
       try {
         const waterfall = await db.waterfallStore.addWaterfall(request.payload);

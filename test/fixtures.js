@@ -47,7 +47,7 @@ export const niagaraFalls = {
 
 export const testFalls = [
   {
-    name: "Gullfoss",
+    name: "Gullfoss - The Fall",
     location: {
       lat: 64.326111,
       long: -20.121111,
@@ -61,7 +61,7 @@ export const testFalls = [
     },
   },
   {
-    name: "Krimmler Waterfalls",
+    name: "Krimmler Waterfalls In the Mountains",
     location: {
       lat: 47.198056,
       long: 12.171389,
@@ -73,7 +73,7 @@ export const testFalls = [
     },
   },
   {
-    name: "Reichenbach Falls",
+    name: "Reichenbach Falls - The most beautiful",
     location: {
       lat: 46.713611,
       long: 8.183056,
