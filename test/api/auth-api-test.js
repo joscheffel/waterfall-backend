@@ -25,7 +25,6 @@ suite("Authentication API tests", async () => {
     const response = await waterfallService.authenticate(maggieCredentials);
 
     const userInfo = decodeToken(response.token);
-    console.log(userInfo);
     assert.equal(userInfo.email, returnedUser.email);
     assert.equal(userInfo.userId, returnedUser._id);
   });

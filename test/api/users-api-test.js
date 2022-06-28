@@ -66,8 +66,8 @@ suite("User Api Tests", () => {
       const returnedUser = await waterfallService.getUser(users[0]._id);
       assert.fail("Should not return a response");
     } catch (error) {
-      assert(error.response.data.message === "No User with this id");
-      assert.equal(error.response.data.statusCode, 404);
+      assert(error.response.data.message === "Invalid Id");
+      assert.equal(error.response.data.statusCode, 400);
     }
   });
 
