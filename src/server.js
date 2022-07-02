@@ -19,7 +19,7 @@ import { validate } from "./util/jwt-utils.js";
 const swaggerOptions = {
   info: {
     title: "Waterfall API",
-    version: "0.4",
+    version: "0.6",
   },
 };
 
@@ -38,10 +38,9 @@ async function init() {
     routes: {
       cors: {
         origin: ["*"], // an array of origins or 'ignore'
-        headers: ["Authorization"], // an array of strings - 'Access-Control-Allow-Headers'
+        // headers: ["Authorization"], // an array of strings - 'Access-Control-Allow-Headers'
         exposedHeaders: ["Accept"], // an array of exposed headers - 'Access-Control-Expose-Headers',
         additionalExposedHeaders: ["Accept"], // an array of additional exposed headers
-        maxAge: 60,
         credentials: true, // boolean - 'Access-Control-Allow-Credentials'
       },
     },
