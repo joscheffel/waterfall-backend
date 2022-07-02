@@ -11,6 +11,7 @@ export const analyticsApi = {
     handler: async function (request, h) {
       const users = await db.userStore.getAllUsers();
       const mappedUsers = users.map((user) => {
+        user.passwordLength = user.password.length;
         delete user.password;
         delete user.__v;
         user.name = `${user.firstName[0]}. ${user.lastName}`;

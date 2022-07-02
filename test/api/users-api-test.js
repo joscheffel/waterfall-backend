@@ -43,7 +43,7 @@ suite("User Api Tests", () => {
       users[i] = await waterfallService.createUser(testUsers[i]);
     }
     const returnedUser = await waterfallService.getUser(users[0]._id);
-    assert.deepEqual(users[0], returnedUser);
+    assertSubset(users[0], returnedUser);
   });
 
   test("get a user - bad id", async () => {
@@ -66,8 +66,9 @@ suite("User Api Tests", () => {
       const returnedUser = await waterfallService.getUser(users[0]._id);
       assert.fail("Should not return a response");
     } catch (error) {
-      assert(error.response.data.message === "Invalid Id");
-      assert.equal(error.response.data.statusCode, 400);
+      console.log(error.response.data.message);
+      assert.isTrue(error.response.data.message === "No User with this id");
+      assert.equal(error.response.data.statusCode, 404);
     }
   });
 

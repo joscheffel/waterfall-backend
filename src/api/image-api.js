@@ -47,7 +47,6 @@ export const imageApi = {
     tags: ["api"],
     description: "Returns all images for a waterfall",
     validate: { params: IdSpec, failAction: validationError },
-    response: { schema: ImageArray, failAction: validationError },
   },
 
   retrieveImage: {

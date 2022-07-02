@@ -36,7 +36,9 @@ async function init() {
   const server = Hapi.server({
     port: process.env.PORT || 4000,
     routes: {
-      cors: true,
+      cors: {
+        credentials: true, // boolean - 'Access-Control-Allow-Credentials'
+      },
     },
   });
 
