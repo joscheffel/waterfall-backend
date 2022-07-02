@@ -113,3 +113,17 @@ Later a more detailed API documentation will be provided with swagger.
 In-Memory and JSON memory model are deprecated starting with the version 0.3.0.
 They are no longer supported, since the new features are only tested and developed in the mongodb.
 
+###Tests
+When running the user api we need to change the auth for the create method:
+````
+create: {
+   // auth: {
+   //   strategy: "jwt",
+   //   scope: "admin",
+   // },
+   auth: false,
+   ...
+````
+
+Explanation: Due to securing the api the test cannot create an admin user without having already admin privileges.
+Since we have an empty database it gets tough to achieve then admin privileges which we need to test the whole api.

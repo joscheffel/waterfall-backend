@@ -1,5 +1,5 @@
 import Boom from "@hapi/boom";
-import { deleteAllFiles, deleteFile, handleFileUpload } from "./image-utils.js";
+import { deleteAllFiles, deleteFile, handleFileUpload } from "../util/image-utils.js";
 import { db } from "../models/db.js";
 import { IdSpec, ImageArray, ImageObjectParams, ImageSpec, ImageSpecPlus } from "../models/joi-schemas.js";
 import { validationError } from "./logger.js";
@@ -47,7 +47,6 @@ export const imageApi = {
     tags: ["api"],
     description: "Returns all images for a waterfall",
     validate: { params: IdSpec, failAction: validationError },
-    response: { schema: ImageArray, failAction: validationError },
   },
 
   retrieveImage: {

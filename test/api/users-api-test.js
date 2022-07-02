@@ -10,6 +10,7 @@ suite("User Api Tests", () => {
   let user = null;
 
   setup(async () => {
+    maggie.email = new Date().getUTCSeconds() + maggie.email; // to guarantee a unique user
     user = await waterfallService.createUser(maggie);
     await waterfallService.authenticate(user);
     await waterfallService.deleteAllUsers();
@@ -18,6 +19,7 @@ suite("User Api Tests", () => {
   });
 
   test("create a user", async () => {
+    maggie.email = new Date().getUTCSeconds() + maggie.email; // to guarantee a unique user
     const newUser = await waterfallService.createUser(maggie);
     assertSubset(maggie, newUser);
     assert.isDefined(newUser._id);
@@ -41,7 +43,7 @@ suite("User Api Tests", () => {
       users[i] = await waterfallService.createUser(testUsers[i]);
     }
     const returnedUser = await waterfallService.getUser(users[0]._id);
-    assert.deepEqual(users[0], returnedUser);
+    assertSubset(users[0], returnedUser);
   });
 
   test("get a user - bad id", async () => {
@@ -64,7 +66,8 @@ suite("User Api Tests", () => {
       const returnedUser = await waterfallService.getUser(users[0]._id);
       assert.fail("Should not return a response");
     } catch (error) {
-      assert(error.response.data.message === "No User with this id");
+      console.log(error.response.data.message);
+      assert.isTrue(error.response.data.message === "No User with this id");
       assert.equal(error.response.data.statusCode, 404);
     }
   });

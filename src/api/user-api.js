@@ -1,8 +1,9 @@
 import Boom from "@hapi/boom";
 import { db } from "../models/db.js";
-import { IdObjectSpec, UserArray, UserSpec, UserSpecPlus } from "../models/joi-schemas.js";
+import { IdObjectSpec, UserArray, UserSpec, UserSpecPlus, UserSpecWithOptionalPassword, UserSpecWithoutPassword } from "../models/joi-schemas.js";
 import { validationError } from "./logger.js";
-import { createToken } from "./jwt-utils.js";
+import { createToken } from "../util/jwt-utils.js";
+import { verifyOnlyAdminUserCanChangeAdminPrivilege, verifyUniqueUser, verifyUserWithIdOrAdmin } from "../util/pre-handler-functions.js";
 
 export const userApi = {
   findAll: {
@@ -13,6 +14,10 @@ export const userApi = {
     handler: async function (request, h) {
       try {
         const users = await db.userStore.getAllUsers();
+        const reducedUsers = users.reduce((user) => {
+          delete user.password;
+          return user;
+        });
         return users;
       } catch (err) {
         return Boom.serverUnavailable("Database Error");
@@ -27,7 +32,6 @@ export const userApi = {
   findOne: {
     auth: {
       strategy: "jwt",
-      scope: "admin",
     },
     handler: async function (request, h) {
       try {
@@ -35,6 +39,7 @@ export const userApi = {
         if (Object.keys(user).length === 0) {
           return Boom.notFound("No User with this id");
         }
+        delete user.password;
         return user;
       } catch (err) {
         return Boom.notFound("No User with this id");
@@ -44,11 +49,15 @@ export const userApi = {
     description: "Get a specific user",
     notes: "Returns user details",
     validate: { params: IdObjectSpec, failAction: validationError },
-    response: { schema: UserSpecPlus, failAction: validationError },
+    response: { schema: UserSpecWithoutPassword, failAction: validationError },
   },
 
   create: {
-    auth: false,
+    auth: {
+      strategy: "jwt",
+      scope: "admin",
+    },
+    pre: [{ method: verifyUniqueUser }],
     handler: async function (request, h) {
       try {
         const user = await db.userStore.addUser(request.payload);
@@ -70,14 +79,19 @@ export const userApi = {
   update: {
     auth: {
       strategy: "jwt",
-      scope: "admin",
     },
+    pre: [verifyUserWithIdOrAdmin, verifyOnlyAdminUserCanChangeAdminPrivilege],
     handler: async function (request, h) {
       try {
+        if (!request.payload.password) {
+          const user = await db.userStore.getUserById(request.params.id);
+          request.payload.password = user.password;
+        }
         const user = await db.userStore.updateUser(request.params.id, request.payload);
         if (Object.keys(user).length === 0) {
           return Boom.notFound("Cannot find user to update. Check your id and _id for equality");
         }
+        delete user.password;
         return h.response(user).code(200);
       } catch (err) {
         return Boom.serverUnavailable("Database error");
@@ -86,8 +100,8 @@ export const userApi = {
     tags: ["api"],
     description: "Updates one user",
     notes: "One user gets updated",
-    validate: { params: IdObjectSpec, payload: UserSpecPlus, failAction: validationError },
-    response: { schema: UserSpecPlus },
+    validate: { params: IdObjectSpec, payload: UserSpecWithOptionalPassword, failAction: validationError },
+    response: { schema: UserSpecWithoutPassword },
   },
 
   deleteAll: {
@@ -144,7 +158,7 @@ export const userApi = {
           return Boom.unauthorized("Invalid password");
         }
         const token = createToken(user);
-        return h.response({ success: true, token: token }).code(201);
+        return h.response({ success: true, token: token, userid: user._id, isAdmin: user.isAdmin }).code(201);
       } catch (err) {
         return Boom.serverUnavailable("Database Error");
       }

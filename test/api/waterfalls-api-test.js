@@ -10,12 +10,13 @@ const BAD_ID = "62b19f6f1198fa79acfa6418";
 suite("Waterfall Api Tests", () => {
   let user = null;
   setup(async () => {
+    maggie.email = new Date().getUTCSeconds() + maggie.email; // to guarantee a unique user
     user = await waterfallService.createUser(maggie);
     await waterfallService.authenticate(user);
     await waterfallService.deleteAllWaterfalls();
     await waterfallService.deleteAllUsers();
     user = await waterfallService.createUser(maggie);
-    await waterfallService.authenticate(maggieCredentials);
+    await waterfallService.authenticate(user);
     niagaraFalls.userid = user._id;
   });
 
@@ -40,7 +41,7 @@ suite("Waterfall Api Tests", () => {
   test("delete all waterfalls", async () => {
     for (let i = 0; i < testFalls.length; i += 1) {
       // eslint-disable-next-line no-await-in-loop
-      await waterfallService.createWaterfall(testFalls[0]);
+      await waterfallService.createWaterfall(testFalls[i]);
     }
     let returnedFalls = await waterfallService.getAllWaterfalls();
     assert.equal(returnedFalls.length, testFalls.length);
@@ -52,7 +53,7 @@ suite("Waterfall Api Tests", () => {
   test("get a waterfall", async () => {
     for (let i = 0; i < testFalls.length; i += 1) {
       // eslint-disable-next-line no-await-in-loop
-      waterfalls[i] = await waterfallService.createWaterfall(testFalls[0]);
+      waterfalls[i] = await waterfallService.createWaterfall(testFalls[i]);
     }
     const returnedFall = await waterfallService.getWaterfall(waterfalls[0]._id);
     assert.deepEqual(waterfalls[0], returnedFall);

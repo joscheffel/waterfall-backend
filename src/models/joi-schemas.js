@@ -11,9 +11,14 @@ export const UserCredentialsSpec = Joi.object().keys({
   password: Joi.string().example("secret").required(),
 });
 
-export const UserSpec = UserCredentialsSpec.keys({
+export const UserSpecReduced = UserCredentialsSpec.keys({
   firstName: Joi.string().example("Homer").required(),
   lastName: Joi.string().example("Simpson").required(),
+})
+  .label("UserDetailsReduced")
+  .description("Does not contain the admin property, so that a new registered user, cannot achieve admin privileges");
+
+export const UserSpec = UserSpecReduced.keys({
   isAdmin: Joi.boolean().example("false").optional().default(false),
 }).label("UserDetails");
 
@@ -22,7 +27,22 @@ export const UserSpecPlus = UserSpec.keys({
   __v: Joi.number(),
 }).label("UserDetailsPlus");
 
-export const UserArray = Joi.array().items(UserSpecPlus).label("UserArray");
+export const UserSpecWithoutPassword = Joi.object()
+  .keys({
+    email: Joi.string().email().example("homer@simpson.com").required(),
+    firstName: Joi.string().example("Homer").required(),
+    lastName: Joi.string().example("Simpson").required(),
+    isAdmin: Joi.boolean().example("false").optional().default(false),
+    _id: IdSpec,
+    __v: Joi.number(),
+  })
+  .label("UserDetailsWithoutPassword");
+
+export const UserSpecWithOptionalPassword = UserSpecWithoutPassword.keys({
+  password: Joi.string().example("secret").optional(),
+}).label("UserDetailsWithOptionalPassword");
+
+export const UserArray = Joi.array().items(UserSpecWithoutPassword).label("UserArray");
 
 export const LocationSpec = Joi.object().keys({
   lat: Joi.number().min(-90).max(90).example(43.0799).required(),
@@ -66,8 +86,8 @@ export const ImageSpec = Joi.object()
 export const ImageSpecPlus = Joi.object()
   .keys({
     name: Joi.string().required(),
-    waterfallId: IdSpec,
     imagePath: Joi.string().required(),
+    waterfallId: IdSpec,
     _id: IdSpec,
     __v: Joi.number(),
   })
