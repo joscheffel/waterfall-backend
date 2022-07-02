@@ -35,14 +35,14 @@ Important: Do not upload or share this link as because it contains your credenti
 
 ### Heroku
 To deploy the application to [Heroku](https://www.heroku.com/) you need to either use the command line tool heroku or do it visually in the webapp.
-####Command Line
+#### Command Line
 First you need to log in: `heroku login`.
 Then you have to create a new app: `heroku create`.
 The next step is to define a git remote via: `heroku git:remote -a <you app name in heroku>` (You can find this command in the heroku webapp in the section deploy of you app).
 The last step is to call `git push heroku main`.
 Now you should get offered links to your application.
 
-####Heroku WebApp
+#### Heroku WebApp
 Go to your dashboard in Heroku after signing up/in.
 Create a new app and select it.
 Next go to the section `Deploy`.
@@ -61,7 +61,7 @@ Make sure to use secure passwords.
 Remember that the .env properties are case sensitive, `COOKIE_NAME` and `cookie_name` are not the same!
 
 ---
-##Documentation
+## Documentation
 When running the application you find a OpenAPI (Swagger) Documentation of the API at `<urlOfDeployment>/documentation`.
 I.e. if you run on localhost you will find the documentation at [http://localhost:3000/documentation](http://localhost:3000/documentation).
 
@@ -109,11 +109,11 @@ And a sample waterfall object looks as follows:
 The `_id` is created by the backend.
 Later a more detailed API documentation will be provided with swagger.
 
-##Important Notes
+## Important Notes
 In-Memory and JSON memory model are deprecated starting with the version 0.3.0.
 They are no longer supported, since the new features are only tested and developed in the mongodb.
 
-###Tests
+### Tests
 When running the user api we need to change the auth for the create method:
 ````
 create: {
