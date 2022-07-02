@@ -18,7 +18,7 @@ export const userApi = {
           delete user.password;
           return user;
         });
-        return users;
+        return Array.of(reducedUsers);
       } catch (err) {
         return Boom.serverUnavailable("Database Error");
       }
