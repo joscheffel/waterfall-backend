@@ -23,7 +23,7 @@ suite("User Model tests", () => {
       await db.userStore.addUser(testUsers[i]);
     }
     let returnedUsers = await db.userStore.getAllUsers();
-    assert.equal(returnedUsers.length, testUsers.length);
+    assert.equal(returnedUsers.length, testUsers.length + 1); //+1 is maggie
     await db.userStore.deleteAll();
     returnedUsers = await db.userStore.getAllUsers();
     assert.equal(returnedUsers.length, NO_USER);

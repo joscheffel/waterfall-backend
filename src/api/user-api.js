@@ -14,11 +14,11 @@ export const userApi = {
     handler: async function (request, h) {
       try {
         const users = await db.userStore.getAllUsers();
-        const reducedUsers = users.reduce((user) => {
+        const reducedUsers = users.map((user) => {
           delete user.password;
           return user;
         });
-        return users;
+        return reducedUsers;
       } catch (err) {
         return Boom.serverUnavailable("Database Error");
       }
